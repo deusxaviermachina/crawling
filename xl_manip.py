@@ -29,12 +29,10 @@ def reformat_sheet(filename):
     min_row = ws.min_row
     max_row = ws.max_row
     for i in range(max_row):
-        print(i)
         min_row = ws.min_row
         val = str(ws.cell(column=3, row=min_row+i).value)
         queue = [i.strip() for i in val.split(",")]
         N = len(queue)
-        print(N)
         for j in range(len(queue)):
             ws.cell(column=3 + j, row=min_row+i).value = queue[j]
             for col in range(3, 3+N):
