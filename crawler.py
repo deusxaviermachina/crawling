@@ -38,7 +38,7 @@ class Crawler:
 
 #test use case
 if __name__ == "__main__":
-    URL = "https://www.southwest.com/air/flight-schedules/results.html?departureDate=2021-03-03&destinationAirportCode=OAK&originationAirportCode=BOS&scheduleViewType=daily&timeOfDay=ALL_DAY"
+    URL = "https://www.southwest.com/air/flight-schedules/results.html?departureDate=2021-03-04&destinationAirportCode=OAK&originationAirportCode=BOS&scheduleViewType=daily&timeOfDay=ALL_DAY"
     options = webdriver.ChromeOptions()
     options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
     driver = webdriver.Chrome(options=options)
