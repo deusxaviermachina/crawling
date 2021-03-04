@@ -64,6 +64,6 @@ for day in days:
 
 if __name__ == "__main__":
     df = pd.DataFrame(data=DATA)
-    df.to_excel("BUR2SF_flights_3.03.2021_to_3.09.2021v9.xlsx")
-    clean_sheet("BUR2SF_flights_3.03.2021_to_3.09.2021v9.xlsx")
-    reformat_sheet("BUR2SF_flights_3.03.2021_to_3.09.2021v9.xlsx")
+    df.to_excel("BUR2SF_flights_3.04.2021_to_3.10.2021v9.xlsx")
+    clean_sheet("BUR2SF_flights_3.04.2021_to_3.10.2021v9.xlsx")
+    reformat_sheet("BUR2SF_flights_3.04.2021_to_3.10.2021v9.xlsx")
