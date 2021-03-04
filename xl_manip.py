@@ -1,6 +1,5 @@
 import openpyxl as xl
 
-
 def clean_sheet(filename):
     wb = xl.load_workbook(filename)
     ws = wb.active
