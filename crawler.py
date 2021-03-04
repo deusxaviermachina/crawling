@@ -54,7 +54,7 @@ if __name__ == "__main__":
     """
     DATA.append(elems)
     df = pd.DataFrame(data=DATA)
-    filename = "FLIGHTSXI.xlsx"
+    filename = "FLIGHTS.xlsx"
     df.to_excel(filename)
     clean_sheet(filename)
     reformat_sheet(filename)
