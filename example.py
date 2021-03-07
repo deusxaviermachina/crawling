@@ -1,11 +1,8 @@
-from crawler import Crawler, clean_sheet, reformat_sheet
+from crawler import Crawler
 from selenium import webdriver
 import pandas as pd
-import openpyxl as xl
-from xl_manip import reformat_sheet, clean_sheet
 
-
-# a somewhat more involved use case for 'Crawler'
+# another use case for 'Crawler'
 
 options = webdriver.ChromeOptions()
 options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
@@ -39,31 +36,28 @@ def define_trip(
     return search_parameters
 
 
-days = ["2021-03-04",
+days = ["2021-03-03",
+        "2021-03-04",
         "2021-03-05",
         "2021-03-06",
         "2021-03-07",
         "2021-03-08",
-        "2021-03-09",
-        "2021-03-10"]
-
+        "2021-03-09"]
 
 DATA = []
-
 for day in days:
     driver.implicitly_wait(100)
     define_trip(day, "BUR", "SFO", "daily", "ALL_DAY")
     query = "&".join([f"{k}={v}" for (k, v) in search_parameters.items()])
     ext_url = URL + "?" + query
     SWACrawler = Crawler(ext_url, options, driver)
-    elems = SWACrawler.get_dict_object(["dates", "times"],
+    df = SWACrawler.to_dataframe(["dates", "times"],
                                        ["//*[@class='date-title']",
-                                        "//*[@class='time--value']"])
+                                        "//*[@class='time--value']"], 1)
 
-    DATA.append(elems)
+    DATA.append(df)
 
-if __name__ == "__main__":
-    df = pd.DataFrame(data=DATA)
-    df.to_excel("BUR2SF_flights_3.04.2021_to_3.10.2021v9.xlsx")
-    clean_sheet("BUR2SF_flights_3.04.2021_to_3.10.2021v9.xlsx")
-    reformat_sheet("BUR2SF_flights_3.04.2021_to_3.10.2021v9.xlsx")
+df = DATA[0]
+for i in DATA[1:]:
+    df = pd.concat([df, i], axis=1)
+df.to_excel("Flights_Test.xlsx")
