@@ -8,6 +8,14 @@ class Crawler:
         self.URL = URL
         self.options = options
         self.driver = driver
+        
+    def read_tables(self):
+        try:
+            data = pd.read_html(self.driver.page_source)
+        except ValueError:
+            print(f"no tables found for page {self.URL}")
+            return
+        return data
 
     def extract_elements(self, x_path: str, human_read=True) -> list:
         """
