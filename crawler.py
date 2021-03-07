@@ -60,7 +60,6 @@ class Crawler:
 
         return df
 
-
 # test use case
 if __name__ == "__main__":
     URL = "https://www.southwest.com/air/flight-schedules/results.html?departureDate=2021-03-04&destinationAirportCode=OAK&originationAirportCode=BOS&scheduleViewType=daily&timeOfDay=ALL_DAY"
@@ -75,7 +74,5 @@ if __name__ == "__main__":
     DF2 = c.to_dataframe(["dates", "times"],
         ["//*[@class='date-title']",
          "//*[@class='time--value']"], 0)
-    print(DF.to_excel("test_example.xlsx"))
-    print(DF2.to_excel("test2_ex.xlsx"))
-
-
+    DF.to_excel("test_example.xlsx")
+    DF2.to_excel("test2_ex.xlsx")
