@@ -9,6 +9,12 @@ class Crawler:
         self.options = options
         self.driver = driver
         
+    def inspect(self):
+        url = self.driver.get(self.URL)
+        data = BeautifulSoup(self.driver.page_source, "html.parser")
+        print(data.prettify())
+        return data
+        
     def read_tables(self):
         """
         crawl page for html table data
