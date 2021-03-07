@@ -57,7 +57,6 @@ class Crawler:
         df = data_list[0]
         for i in data_list[1:]:
             df = pd.concat([df, i], axis=axis)
-
         return df
 
 # test use case
