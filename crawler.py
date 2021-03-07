@@ -1,6 +1,6 @@
 from selenium import webdriver
 import pandas as pd
-from xl_manip import reformat_sheet, clean_sheet
+from bs4 import BeautifulSoup
 
 
 class Crawler:
@@ -8,18 +8,15 @@ class Crawler:
         self.URL = URL
         self.options = options
         self.driver = driver
-        
+
     def inspect(self):
         url = self.driver.get(self.URL)
         data = BeautifulSoup(self.driver.page_source, "html.parser")
         print(data.prettify())
         return data
-        
+
     def read_tables(self):
-        """
-        crawl page for html table data
-        """
-        self.driver.get(self.URL)
+        url = self.driver.get(self.URL)
         try:
             data = pd.read_html(self.driver.page_source)
         except ValueError:
@@ -53,28 +50,27 @@ class Crawler:
 
         return data
 
+    def to_dataframe2xl(self, names, elements, filename):
+        data = self.get_dict_object(names, elements)
+        data = [j for i,j in sorted(data.items(), key=lambda x: len(x[1]), reverse=False)]
+        data_list = [pd.DataFrame(data=item) for item in data]
+        df = data_list[0]
+        for i in data_list[1:]:
+            df = df.append(i)
+        df.to_excel(filename)
+        return df
 
-#test use case
+# test use case
 if __name__ == "__main__":
     URL = "https://www.southwest.com/air/flight-schedules/results.html?departureDate=2021-03-04&destinationAirportCode=OAK&originationAirportCode=BOS&scheduleViewType=daily&timeOfDay=ALL_DAY"
     options = webdriver.ChromeOptions()
     options.binary_location = "C:\Program Files\Google\Chrome\Application\chrome.exe"
     driver = webdriver.Chrome(options=options)
     c = Crawler(URL, options, driver)
-    elems = c.get_dict_object(
-        ["dates", "times"],
+    c.inspect()
+    DF = c.to_dataframe2xl(["dates", "times"],
         ["//*[@class='date-title']",
-        "//*[@class='time--value']"])
-    DATA = []
-    """
-       pandas will throw an error if columns aren't of the same length--
-       to prevent this, append elements to an empty list
-    """
-    DATA.append(elems)
-    df = pd.DataFrame(data=DATA)
-    filename = "FLIGHTS.xlsx"
-    df.to_excel(filename)
-    clean_sheet(filename)
-    reformat_sheet(filename)
+         "//*[@class='time--value']"], "CASEFLIGHTSTEST.xlsx")
+    print(DF)
 
 
