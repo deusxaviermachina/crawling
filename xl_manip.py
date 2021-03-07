@@ -1,5 +1,8 @@
 import openpyxl as xl
 
+"""
+example of how to reformat excel spreadsheet
+"""
 def clean_sheet(filename):
     wb = xl.load_workbook(filename)
     ws = wb.active
