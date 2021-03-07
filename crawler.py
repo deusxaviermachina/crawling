@@ -50,15 +50,16 @@ class Crawler:
 
         return data
 
-    def to_dataframe2xl(self, names, elements, filename):
+    def to_dataframe(self, names, elements, axis: int):
         data = self.get_dict_object(names, elements)
         data = [j for i,j in sorted(data.items(), key=lambda x: len(x[1]), reverse=False)]
         data_list = [pd.DataFrame(data=item) for item in data]
         df = data_list[0]
         for i in data_list[1:]:
-            df = df.append(i)
-        df.to_excel(filename)
+            df = pd.concat([df, i], axis=axis)
+
         return df
+
 
 # test use case
 if __name__ == "__main__":
@@ -68,9 +69,13 @@ if __name__ == "__main__":
     driver = webdriver.Chrome(options=options)
     c = Crawler(URL, options, driver)
     c.inspect()
-    DF = c.to_dataframe2xl(["dates", "times"],
+    DF = c.to_dataframe(["dates", "times"],
         ["//*[@class='date-title']",
-         "//*[@class='time--value']"], "CASEFLIGHTSTEST.xlsx")
-    print(DF)
+         "//*[@class='time--value']"], 1)
+    DF2 = c.to_dataframe(["dates", "times"],
+        ["//*[@class='date-title']",
+         "//*[@class='time--value']"], 0)
+    print(DF.to_excel("test_example.xlsx"))
+    print(DF2.to_excel("test2_ex.xlsx"))
 
 
