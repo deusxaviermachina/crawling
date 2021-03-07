@@ -19,6 +19,7 @@ class Crawler:
         """
         crawl page for html table data
         """
+        self.driver.get(self.URL)
         try:
             data = pd.read_html(self.driver.page_source)
         except ValueError:
