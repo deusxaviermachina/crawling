@@ -10,6 +10,9 @@ class Crawler:
         self.driver = driver
         
     def read_tables(self):
+        """
+        crawl page for html table data
+        """
         try:
             data = pd.read_html(self.driver.page_source)
         except ValueError:
